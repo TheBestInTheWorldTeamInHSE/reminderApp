@@ -7,14 +7,8 @@
 //
 
 import UIKit
-//
+
 class ReminderTableViewController: UITableViewController {
-    
-    // var reminders = [
-        //Reminder(name: "Feed cat", description: "2020-07-17",  guid: "9c0678b2-d94c-453d-96c9-283c6162da23"),
-        //Reminder(name: "Call dad", description: "2020-07-17", guid: "60f441eb-27b9-4c32-b793-cf25de46e832"),
-        //Reminder(name: "Postavit' class", description: "2020-07-17", guid: "111dda19-f052-4eee-a4dc-3806b366e69c")
-    //]
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,18 +10,12 @@ import UIKit
 
 class NewReminderTableViewController: UITableViewController {
     
-    let dict = ["a" : "b"]
-    
     var reminder = Base.Reminder(name: "", description: "", guid: "")
     public let defaults = UserDefaults.standard
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var dateTextField: UITextField!
-    
-    @IBAction func saveBut(_ sender: Any) {
-        //defaults.set(<#T##value: Any?##Any?#>, forKey: <#T##String#>)
-    }
     
     public let datePicker = UIDatePicker()
     
@@ -74,9 +68,6 @@ class NewReminderTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         guard segue.identifier == "saveSegue" else { return }
-        
-        //let desc = Base.shared.info[IndexPath.row].description
-        //let name = Base.shared.info[IndexPath.row].name
         
         let name = nameTextField.text ?? ""
         let description = descriptionTextField.text ?? ""

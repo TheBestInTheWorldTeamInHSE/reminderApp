@@ -8,12 +8,6 @@
 
 import Foundation
 
-struct Reminder {
-    var name: String
-    var description: String
-    var guid: String
-}
-
 class Base {
     
     struct Reminder: Codable {
