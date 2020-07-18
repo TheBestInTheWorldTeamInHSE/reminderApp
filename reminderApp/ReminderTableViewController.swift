@@ -40,17 +40,20 @@ class ReminderTableViewController: UITableViewController {
         let sourceViewController = segue.source as! NewReminderTableViewController
         var reminder = sourceViewController.reminder
         
-        if let selectedIndexPath = tableView.indexPathForSelectedRow{
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
             Base.shared.info[selectedIndexPath.row] = reminder
             tableView.reloadRows(at: [selectedIndexPath], with: .fade)
-            print(reminder.guid)
             sendNotification(datePicker: sourceViewController.datePicker, reminder: reminder)
         } else {
             reminder = Base.Reminder(name: reminder.name, description: reminder.description, guid: UUID().uuidString)
             let newIndexPath = IndexPath(row: Base.shared.info.count, section: 0)
-            Base.shared.info.insert(reminder, at: 0)
-            print(reminder.guid)
+
+            Base.shared.info.reverse()
+            Base.shared.info.append(reminder)
+            Base.shared.info.reverse()
+            
             tableView.insertRows(at: [newIndexPath], with: .fade)
+            tableView.reloadData()
             
             sendNotification(datePicker: sourceViewController.datePicker, reminder: reminder)
         }
@@ -61,13 +64,14 @@ class ReminderTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Base.shared.info.count // reminders.count
+        return Base.shared.info.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath) as! ReminderTableViewCell
         
         let reminder = Base.shared.info[indexPath.row]
+        print("Reminder: \(reminder)")
         cell.set(reminder: reminder)
         return cell
     }
