@@ -40,10 +40,14 @@
         super.awakeFromNib()
     }
     
-    func set(reminder: Reminder) {
-        self.nameLabel.text = reminder.name
-        self.descriptionLabel.text = reminder.description
+    func set(reminder: Base.Reminder) {
+        self.nameLabel.text = reminder.name //Base.shared.info[IndexPath.row].name // reminder.name
+        self.descriptionLabel.text = reminder.description //Base.shared.info[1].description // reminder.description
+        
+        print(self.nameLabel.text!)
+        print(self.descriptionLabel.text!)
     }
     
     
  }
+ 

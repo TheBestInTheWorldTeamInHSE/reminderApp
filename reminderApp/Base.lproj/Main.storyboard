@@ -196,7 +196,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="PMo-UN-1tP">
                             <connections>
-                                <action selector="saveButton:" destination="9wq-Ud-tsd" id="PKg-mh-Xbb"/>
+                                <action selector="saveBut:" destination="9wq-Ud-tsd" id="dHj-dT-HAS"/>
                                 <segue destination="zeH-qW-1hk" kind="unwind" identifier="saveSegue" unwindAction="unwindSegueWithSegue:" id="0UE-om-G5g"/>
                             </connections>
                         </barButtonItem>
