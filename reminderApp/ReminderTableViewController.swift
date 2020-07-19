@@ -8,20 +8,20 @@
 
 import UIKit
 
-class ReminderTableViewController: UITableViewController {
+class ReminderTableViewController: UITableViewController, UNUserNotificationCenterDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Reminder"
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-        
+
         checkNotificationSettings(center: UNUserNotificationCenter.current())
         
         for i in 0 ..< Base.shared.info.count {
             print("Name: \(Base.shared.info[i].name) Description: \(Base.shared.info[i].description)")
         }
     }
-    
+
     func checkNotificationSettings(center: UNUserNotificationCenter) {
         
         center.getNotificationSettings(completionHandler: { (settings) in
@@ -40,16 +40,45 @@ class ReminderTableViewController: UITableViewController {
         
         let center = UNUserNotificationCenter.current()
         
+        center.delegate = self
+        
         let content = UNMutableNotificationContent()
         content.title = reminder.name
         content.body = reminder.description
+        content.categoryIdentifier = "category"
         
         let date = datePicker.calendar.dateComponents([.day, .hour, .minute], from: datePicker.date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
         let request = UNNotificationRequest(identifier: reminder.guid, content: content, trigger: trigger)
         
+        let snoozeAction = UNNotificationAction(identifier: "snooze", title: "Snooze", options: [])
+//        let doneAction = UNNotificationAction(identifier: "done", title: "Done", options: [])
+        let category = UNNotificationCategory(identifier: "category", actions: [snoozeAction], intentIdentifiers: [], options: [])
+        center.setNotificationCategories([category])
+
         center.add(request) { (error) in }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.actionIdentifier == "snooze" {
+            var dayComponent = DateComponents()
+            dayComponent.minute = 9
+            let theCalendar = Calendar.current
+            let nextDate = theCalendar.date(byAdding: dayComponent, to: Date())
+            let comps = Calendar.current.dateComponents([.day, .hour, .minute], from: nextDate!)
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+            let request = UNNotificationRequest(identifier: response.notification.request.identifier,
+                                                content: response.notification.request.content, trigger: trigger)
+//            print(response.notification.request.identifier)
+//            print(response.notification.request.content)
+//            print(comps)
+            center.add(request) { (error) in }
+        }
         
+        completionHandler()
     }
     
     @IBAction func unwindSegue(segue: UIStoryboardSegue) {
@@ -66,9 +95,7 @@ class ReminderTableViewController: UITableViewController {
             reminder = Base.Reminder(name: reminder.name, description: reminder.description, guid: UUID().uuidString)
             let newIndexPath = IndexPath(row: Base.shared.info.count, section: 0)
 
-            Base.shared.info.reverse()
             Base.shared.info.append(reminder)
-            Base.shared.info.reverse()
             
             tableView.insertRows(at: [newIndexPath], with: .fade)
             tableView.reloadData()

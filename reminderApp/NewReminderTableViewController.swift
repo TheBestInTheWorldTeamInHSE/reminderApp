@@ -74,4 +74,7 @@ class NewReminderTableViewController: UITableViewController {
         
         self.reminder = Base.Reminder(name: name, description: description, guid: self.reminder.guid)
     }
+    
+   
+    
 }

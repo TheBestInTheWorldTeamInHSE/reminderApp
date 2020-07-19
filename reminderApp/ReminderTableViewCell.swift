@@ -42,11 +42,6 @@
     func set(reminder: Base.Reminder) {
         self.nameLabel.text = reminder.name
         self.descriptionLabel.text = reminder.description
-        
-        // print(self.nameLabel.text!)
-        // print(self.descriptionLabel.text!)
     }
-    
-    
  }
  
