@@ -35,7 +35,7 @@ class Base {
                 print(data)
                 defaults.set(data, forKey: "info")
             } else {
-                defaults.removeObject(forKey: "info")
+                // defaults.removeObject(forKey: "info")
             }
         }
     }

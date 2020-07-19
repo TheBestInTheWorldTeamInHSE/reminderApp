@@ -14,17 +14,35 @@ class ReminderTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "Reminder"
         self.navigationItem.leftBarButtonItem = self.editButtonItem
+        
+        checkNotificationSettings(center: UNUserNotificationCenter.current())
+        
+        for i in 0 ..< Base.shared.info.count {
+            print("Name: \(Base.shared.info[i].name) Description: \(Base.shared.info[i].description)")
+        }
+    }
+    
+    func checkNotificationSettings(center: UNUserNotificationCenter) {
+        
+        center.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                // Notification permission has not been asked yet, go for it!
+                center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in }
+            } else if settings.authorizationStatus == .denied {
+                // Notification permission was previously denied, go to settings & privacy to re-enable
+            } else if settings.authorizationStatus == .authorized {
+                // Notification permission was already granted
+            }
+        })
     }
     
     func sendNotification(datePicker: UIDatePicker, reminder: Base.Reminder) {
         
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in }
         
         let content = UNMutableNotificationContent()
         content.title = reminder.name
         content.body = reminder.description
-        content.badge = 1
         
         let date = datePicker.calendar.dateComponents([.day, .hour, .minute], from: datePicker.date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
@@ -71,7 +89,7 @@ class ReminderTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell", for: indexPath) as! ReminderTableViewCell
         
         let reminder = Base.shared.info[indexPath.row]
-        print("Reminder: \(reminder)")
+        // print("Reminder: \(reminder)")
         cell.set(reminder: reminder)
         return cell
     }
