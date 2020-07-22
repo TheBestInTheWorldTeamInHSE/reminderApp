@@ -14,6 +14,7 @@ class Base {
         var name: String
         var description: String
         var guid: String
+        var DATE: String
     }
     
     static let shared = Base()

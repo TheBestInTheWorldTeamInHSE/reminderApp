@@ -92,7 +92,7 @@ class ReminderTableViewController: UITableViewController, UNUserNotificationCent
             tableView.reloadRows(at: [selectedIndexPath], with: .fade)
             sendNotification(datePicker: sourceViewController.datePicker, reminder: reminder)
         } else {
-            reminder = Base.Reminder(name: reminder.name, description: reminder.description, guid: UUID().uuidString)
+            reminder = Base.Reminder(name: reminder.name, description: reminder.description, guid: UUID().uuidString, DATE: reminder.DATE)
             let newIndexPath = IndexPath(row: Base.shared.info.count, section: 0)
 
             Base.shared.info.append(reminder)

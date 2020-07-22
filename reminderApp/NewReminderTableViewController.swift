@@ -10,7 +10,7 @@ import UIKit
 
 class NewReminderTableViewController: UITableViewController {
     
-    var reminder = Base.Reminder(name: "", description: "", guid: "")
+    var reminder = Base.Reminder(name: "", description: "", guid: "", DATE: "")
     public let defaults = UserDefaults.standard
     
     @IBOutlet weak var nameTextField: UITextField!
@@ -56,7 +56,7 @@ class NewReminderTableViewController: UITableViewController {
     private func updateUI() {
         nameTextField.text = reminder.name
         descriptionTextField.text = reminder.description
-//        dateTextField.text = reminder.date
+        dateTextField.text = reminder.DATE
     }
     
     override func viewDidLoad() {
@@ -72,8 +72,9 @@ class NewReminderTableViewController: UITableViewController {
         
         let name = nameTextField.text ?? ""
         let description = descriptionTextField.text ?? ""
+        let datee = dateTextField.text ?? ""
         
-        self.reminder = Base.Reminder(name: name, description: description, guid: self.reminder.guid)
+        self.reminder = Base.Reminder(name: name, description: description, guid: self.reminder.guid, DATE: datee)
     }
     
    

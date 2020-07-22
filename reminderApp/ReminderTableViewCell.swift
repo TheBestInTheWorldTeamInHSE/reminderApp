@@ -13,6 +13,7 @@
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    
     var checked: Bool = false
     
     @IBOutlet weak var donButton: UIButton!
@@ -42,6 +43,7 @@
     func set(reminder: Base.Reminder) {
         self.nameLabel.text = reminder.name
         self.descriptionLabel.text = reminder.description
+        
     }
  }
  
