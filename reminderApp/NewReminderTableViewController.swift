@@ -56,6 +56,7 @@ class NewReminderTableViewController: UITableViewController {
     private func updateUI() {
         nameTextField.text = reminder.name
         descriptionTextField.text = reminder.description
+//        dateTextField.text = reminder.date
     }
     
     override func viewDidLoad() {
